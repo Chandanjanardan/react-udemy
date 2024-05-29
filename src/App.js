@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+// src/TextToSpeech.js
+import React, { useState } from 'react';
 
-function App() {
+const App = () => {
+  const [text, setText] = useState('');
+
+  const speak = (text) => {
+    if ('speechSynthesis' in window) {
+      const speech = new SpeechSynthesisUtterance('hello how are you ');
+      window.speechSynthesis.speak(speech);
+    } else {
+      alert('Sorry, your browser does not support text to speech!');
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const handleSpeakClick = () => {
+    speak(text);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Text to Speech</h1>
+      <textarea
+        value={text}
+        onChange={handleInputChange}
+        rows="4"
+        cols="50"
+        placeholder="Enter text here..."
+      />
+      <br />
+      <button onClick={handleSpeakClick}>Speak</button>
     </div>
   );
-}
+};
 
 export default App;
